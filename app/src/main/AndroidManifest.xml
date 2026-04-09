@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="StockLAB"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.StockLAB"
+        tools:targetApi="31">
+
+
+        <!-- MAIN ACTIVITY -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <!-- MATERIAIS -->
+        <activity
+            android:name=".ui.materiais.MateriaisActivity"
+            android:exported="false" />
+
+        <!-- EQUIPAMENTOS -->
+        <activity
+            android:name=".ui.EquipamentosActivity"
+            android:exported="false" />
+
+        <!-- RELATORIOS -->
+        <activity
+            android:name=".ui.RelatorioActivity"
+            android:exported="false" />
+
+        <!-- OCORRENCIAS -->
+        <activity
+            android:name=".ui.OcorrenciasActivity"
+            android:exported="false" />
+
+        <!-- CADASTRO -->
+        <activity
+            android:name=".ui.cadastro.CadastroMaterialActivity"
+            android:exported="false"
+            android:label="Cadastrar Material" />
+
+        <activity
+            android:name=".ui.cadastro.CadastroEquipamentoActivity"
+            android:exported="false"
+            android:label="Cadastrar Equipamento" />
+
+    </application>
+
+</manifest>
