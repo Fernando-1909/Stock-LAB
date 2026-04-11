@@ -5,21 +5,26 @@ import android.os.Bundle
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sistema_de_laboratorio.R
 import com.example.sistema_de_laboratorio.domain.service.LaboratorioService
 import com.example.sistema_de_laboratorio.ui.cadastro.CadastroMaterialActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.launch
 
 class MateriaisActivity : AppCompatActivity() {
 
     private lateinit var adapter: MaterialAdapter
     private lateinit var busca: EditText
+    private lateinit var service: LaboratorioService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_materiais)
+
+        service = LaboratorioService(this)
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         busca = findViewById<EditText>(R.id.edtBusca)
@@ -28,15 +33,17 @@ class MateriaisActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         
         adapter = MaterialAdapter(
-            lista = LaboratorioService.relatorioEstoque(),
+            lista = emptyList(),
             onEditClick = { material ->
                 val intent = Intent(this, CadastroMaterialActivity::class.java)
                 intent.putExtra("MATERIAL_ID", material.id)
                 startActivity(intent)
             },
-            onDeleteClick = { id ->
-                LaboratorioService.excluirMaterial(id)
-                atualizarLista()
+            onDeleteClick = { material ->
+                lifecycleScope.launch {
+                    service.excluirMaterial(material)
+                    atualizarLista()
+                }
             }
         )
         recyclerView.adapter = adapter
@@ -57,7 +64,9 @@ class MateriaisActivity : AppCompatActivity() {
 
     private fun atualizarLista() {
         val textoBusca = busca.text.toString()
-        val resultado = LaboratorioService.buscarMateriais(textoBusca)
-        adapter.atualizarLista(resultado)
+        lifecycleScope.launch {
+            val resultado = service.buscarMateriais(textoBusca)
+            adapter.atualizarLista(resultado)
+        }
     }
 }

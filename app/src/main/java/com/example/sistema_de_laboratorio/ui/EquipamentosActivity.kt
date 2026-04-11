@@ -5,21 +5,26 @@ import android.os.Bundle
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sistema_de_laboratorio.R
 import com.example.sistema_de_laboratorio.domain.service.LaboratorioService
 import com.example.sistema_de_laboratorio.ui.cadastro.CadastroEquipamentoActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.launch
 
 class EquipamentosActivity : AppCompatActivity() {
 
     private lateinit var adapter: EquipamentoAdapter
     private lateinit var busca: EditText
+    private lateinit var service: LaboratorioService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_equipamentos)
+
+        service = LaboratorioService(this)
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerEquip)
         busca = findViewById<EditText>(R.id.edtBusca)
@@ -28,19 +33,23 @@ class EquipamentosActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         
         adapter = EquipamentoAdapter(
-            lista = LaboratorioService.relatorioEquipamentos(),
+            lista = emptyList(),
             onToggleStatus = { id ->
-                LaboratorioService.toggleStatusEquipamento(id)
-                atualizarLista()
+                lifecycleScope.launch {
+                    service.toggleStatusEquipamento(id)
+                    atualizarLista()
+                }
             },
             onEditClick = { equip ->
                 val intent = Intent(this, CadastroEquipamentoActivity::class.java)
                 intent.putExtra("EQUIP_ID", equip.id)
                 startActivity(intent)
             },
-            onDeleteClick = { id ->
-                LaboratorioService.excluirEquipamento(id)
-                atualizarLista()
+            onDeleteClick = { equip ->
+                lifecycleScope.launch {
+                    service.excluirEquipamento(equip)
+                    atualizarLista()
+                }
             }
         )
         recyclerView.adapter = adapter
@@ -61,7 +70,9 @@ class EquipamentosActivity : AppCompatActivity() {
 
     private fun atualizarLista() {
         val textoBusca = busca.text.toString()
-        val resultado = LaboratorioService.buscarEquipamentos(textoBusca)
-        adapter.atualizarLista(resultado)
+        lifecycleScope.launch {
+            val resultado = service.buscarEquipamentos(textoBusca)
+            adapter.atualizarLista(resultado)
+        }
     }
 }

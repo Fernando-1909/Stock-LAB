@@ -21,7 +21,30 @@
 
         <EditText
             android:id="@+id/edtNome"
-            android:hint="Nome do equipamento"
+            android:hint="Nome (Obrigatório)"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary"
+            android:background="@drawable/bg_edittext"
+            android:padding="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"/>
+
+        <EditText
+            android:id="@+id/edtQuantidade"
+            android:hint="Quantidade (Obrigatório)"
+            android:inputType="number"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary"
+            android:background="@drawable/bg_edittext"
+            android:padding="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"/>
+
+        <EditText
+            android:id="@+id/edtDescricao"
+            android:hint="Descrição"
             android:textColor="@color/text_primary"
             android:textColorHint="@color/text_secondary"
             android:background="@drawable/bg_edittext"
@@ -44,6 +67,39 @@
         <EditText
             android:id="@+id/edtLocalizacao"
             android:hint="Localização"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary"
+            android:background="@drawable/bg_edittext"
+            android:padding="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"/>
+
+        <EditText
+            android:id="@+id/edtDataAquisicao"
+            android:hint="Data de Aquisição"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary"
+            android:background="@drawable/bg_edittext"
+            android:padding="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"/>
+
+        <EditText
+            android:id="@+id/edtFornecedor"
+            android:hint="Fornecedor"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary"
+            android:background="@drawable/bg_edittext"
+            android:padding="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"/>
+
+        <EditText
+            android:id="@+id/edtManual"
+            android:hint="Link/Info do Manual"
             android:textColor="@color/text_primary"
             android:textColorHint="@color/text_secondary"
             android:background="@drawable/bg_edittext"

@@ -14,7 +14,7 @@ class EquipamentoAdapter(
     private var lista: List<Equipamento>,
     private val onToggleStatus: (Int) -> Unit,
     private val onEditClick: (Equipamento) -> Unit,
-    private val onDeleteClick: (Int) -> Unit
+    private val onDeleteClick: (Equipamento) -> Unit
 ) : RecyclerView.Adapter<EquipamentoAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -44,7 +44,7 @@ class EquipamentoAdapter(
 
         holder.btnToggle.setOnClickListener { onToggleStatus(item.id) }
         holder.btnEdit.setOnClickListener { onEditClick(item) }
-        holder.btnDelete.setOnClickListener { onDeleteClick(item.id) }
+        holder.btnDelete.setOnClickListener { onDeleteClick(item) }
     }
 
     fun atualizarLista(novaLista: List<Equipamento>) {

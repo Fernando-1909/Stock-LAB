@@ -12,7 +12,7 @@ import com.example.sistema_de_laboratorio.data.model.Material
 class MaterialAdapter(
     private var lista: List<Material>,
     private val onEditClick: (Material) -> Unit,
-    private val onDeleteClick: (Int) -> Unit
+    private val onDeleteClick: (Material) -> Unit
 ) : RecyclerView.Adapter<MaterialAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -36,7 +36,7 @@ class MaterialAdapter(
         holder.quantidade.text = "Qtd: ${item.quantidade}"
         
         holder.btnEdit.setOnClickListener { onEditClick(item) }
-        holder.btnDelete.setOnClickListener { onDeleteClick(item.id) }
+        holder.btnDelete.setOnClickListener { onDeleteClick(item) }
     }
 
     fun atualizarLista(novaLista: List<Material>) {

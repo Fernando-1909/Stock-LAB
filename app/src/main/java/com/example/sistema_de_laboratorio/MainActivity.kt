@@ -4,13 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.sistema_de_laboratorio.data.model.Material
-import com.example.sistema_de_laboratorio.data.repository.LaboratorioRepository
 import com.example.sistema_de_laboratorio.domain.service.LaboratorioService
 import com.example.sistema_de_laboratorio.ui.EquipamentosActivity
 import com.example.sistema_de_laboratorio.ui.OcorrenciasActivity
 import com.example.sistema_de_laboratorio.ui.RelatorioActivity
 import com.example.sistema_de_laboratorio.ui.materiais.MateriaisActivity
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,19 +19,22 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Dados de teste
-        if (LaboratorioService.relatorioEstoque().isEmpty()) {
-            LaboratorioService.cadastrarMaterial(
-                Material(
-                    LaboratorioRepository.gerarMaterialId(),
-                    "Álcool 70%",
-                    "Uso geral",
-                    15,
-                    "Armário A",
-                    "2024",
-                    "Fornecedor X"
+        val service = LaboratorioService(this)
+
+        // Dados de teste (opcional, apenas se o banco estiver vazio)
+        lifecycleScope.launch {
+            if (service.relatorioEstoque().isEmpty()) {
+                service.cadastrarMaterial(
+                    Material(
+                        nome = "Álcool 70%",
+                        quantidade = 15,
+                        descricao = "Uso geral",
+                        localizacao = "Armário A",
+                        dataAquisicao = "2024",
+                        fornecedor = "Fornecedor X"
+                    )
                 )
-            )
+            }
         }
 
         findViewById<Button>(R.id.btnMateriais).setOnClickListener {
