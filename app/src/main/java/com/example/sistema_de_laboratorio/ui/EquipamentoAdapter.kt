@@ -12,16 +12,18 @@ import com.example.sistema_de_laboratorio.data.model.Status
 
 class EquipamentoAdapter(
     private var lista: List<Equipamento>,
-    private val onToggleStatus: (Int) -> Unit,
+    private val onItemClick: (Equipamento) -> Unit,
+    private val onStatusClick: (Equipamento, View) -> Unit,
     private val onEditClick: (Equipamento) -> Unit,
     private val onDeleteClick: (Equipamento) -> Unit
 ) : RecyclerView.Adapter<EquipamentoAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val container: View = view
         val nome: TextView = view.findViewById(R.id.txtNome)
         val status: TextView = view.findViewById(R.id.txtStatus)
         val btnDelete: ImageButton = view.findViewById(R.id.btnDelete)
-        val btnToggle: ImageButton = view.findViewById(R.id.btnToggleStatus)
+        val btnStatus: ImageButton = view.findViewById(R.id.btnToggleStatus)
         val btnEdit: ImageButton = view.findViewById(R.id.btnEdit)
     }
 
@@ -38,11 +40,17 @@ class EquipamentoAdapter(
         holder.nome.text = item.nome
         holder.status.text = "Status: ${item.status}"
         
-        val icon = if (item.status == Status.DISPONIVEL) 
-            android.R.drawable.presence_online else android.R.drawable.presence_busy
-        holder.btnToggle.setImageResource(icon)
+        val icon = when (item.status) {
+            Status.DISPONIVEL -> android.R.drawable.presence_online
+            Status.MANUTENCAO -> android.R.drawable.presence_busy
+            Status.EM_USO -> android.R.drawable.presence_away
+            Status.QUEBRADO -> android.R.drawable.presence_offline
+            Status.INDISPONIVEL -> android.R.drawable.presence_invisible
+        }
+        holder.btnStatus.setImageResource(icon)
 
-        holder.btnToggle.setOnClickListener { onToggleStatus(item.id) }
+        holder.container.setOnClickListener { onItemClick(item) }
+        holder.btnStatus.setOnClickListener { onStatusClick(item, it) }
         holder.btnEdit.setOnClickListener { onEditClick(item) }
         holder.btnDelete.setOnClickListener { onDeleteClick(item) }
     }
