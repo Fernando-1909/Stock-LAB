@@ -106,7 +106,11 @@ class LaboratorioService(context: Context) {
     suspend fun toggleStatusEquipamento(id: Int) {
         val equipamento = equipamentoDao.getById(id)
         equipamento?.let {
-            val novoStatus = if (it.status == Status.DISPONIVEL) Status.MANUTENCAO else Status.DISPONIVEL
+            val novoStatus = when (it.status) {
+                Status.DISPONIVEL -> Status.INDISPONIVEL
+                Status.INDISPONIVEL -> Status.MANUTENCAO
+                Status.MANUTENCAO -> Status.DISPONIVEL
+            }
             updateStatusEquipamento(id, novoStatus)
         }
     }

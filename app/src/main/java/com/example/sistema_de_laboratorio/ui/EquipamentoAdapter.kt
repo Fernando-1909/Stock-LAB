@@ -42,10 +42,8 @@ class EquipamentoAdapter(
         
         val icon = when (item.status) {
             Status.DISPONIVEL -> android.R.drawable.presence_online
-            Status.MANUTENCAO -> android.R.drawable.presence_busy
-            Status.EM_USO -> android.R.drawable.presence_away
-            Status.QUEBRADO -> android.R.drawable.presence_offline
             Status.INDISPONIVEL -> android.R.drawable.presence_invisible
+            Status.MANUTENCAO -> android.R.drawable.presence_busy
         }
         holder.btnStatus.setImageResource(icon)
 

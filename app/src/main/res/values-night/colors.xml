@@ -1,0 +1,7 @@
+<resources>
+    <!-- Generic names for use in layouts (Dark Theme) -->
+    <color name="app_bg">@color/dark_bg</color>
+    <color name="card_bg">@color/dark_card_bg</color>
+    <color name="text_primary">@color/dark_text_primary</color>
+    <color name="text_secondary">@color/dark_text_secondary</color>
+</resources>
