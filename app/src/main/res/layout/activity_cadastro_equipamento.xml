@@ -1,7 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_bg">
+    android:background="@color/app_bg">
 
     <LinearLayout
         android:orientation="vertical"
@@ -112,7 +112,7 @@
             android:id="@+id/btnSalvar"
             android:text="Salvar Equipamento"
             android:backgroundTint="@color/green_primary"
-            android:textColor="@color/dark_bg"
+            android:textColor="@color/app_bg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"/>

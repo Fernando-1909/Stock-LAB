@@ -28,9 +28,9 @@ class MateriaisActivity : AppCompatActivity() {
 
         service = LaboratorioService(this)
 
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        busca = findViewById<EditText>(R.id.edtBusca)
-        val fabAdd = findViewById<FloatingActionButton>(R.id.fabAdd)
+        val recyclerView = findViewById<RecyclerView>(R.id.rvMateriais)
+        busca = findViewById<EditText>(R.id.editSearch)
+        val fabAdd = findViewById<FloatingActionButton>(R.id.fabAddMaterial)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         
