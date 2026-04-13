@@ -1,125 +1,99 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/app_bg"
-    android:padding="16dp">
+    android:background="@color/app_bg">
 
-    <TextView
-        android:text="Cadastrar Material"
-        android:textSize="24sp"
-        android:textColor="@color/green_primary"
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"/>
-
-    <ScrollView
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/txtTituloCadastro"
+            android:text="Cadastrar Material"
+            android:textSize="24sp"
+            android:textColor="@color/green_primary"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"/>
+
+        <EditText
+            android:id="@+id/edtNome"
+            android:hint="Nome do Material (Obrigatório)"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary"
+            android:background="@drawable/bg_edittext"
+            android:padding="12dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginBottom="16dp"/>
 
-            <TextView
-                android:text="Nome do Material"
-                android:textColor="@color/text_primary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <EditText
-                android:id="@+id/editNome"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_edittext"
-                android:padding="12dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="16dp"
-                android:textColor="@color/text_primary"
-                android:textColorHint="@color/text_secondary"
-                android:hint="Ex: Álcool 70%"/>
+        <EditText
+            android:id="@+id/edtQuantidade"
+            android:hint="Quantidade (Obrigatório)"
+            android:inputType="number"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary"
+            android:background="@drawable/bg_edittext"
+            android:padding="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"/>
 
-            <TextView
-                android:text="Quantidade"
-                android:textColor="@color/text_primary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <EditText
-                android:id="@+id/editQuantidade"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:background="@drawable/bg_edittext"
-                android:padding="12dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="16dp"
-                android:textColor="@color/text_primary"
-                android:textColorHint="@color/text_secondary"
-                android:hint="0"/>
+        <EditText
+            android:id="@+id/edtLocalizacao"
+            android:hint="Localização (Obrigatório)"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary"
+            android:background="@drawable/bg_edittext"
+            android:padding="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"/>
 
-            <TextView
-                android:text="Localização"
-                android:textColor="@color/text_primary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <EditText
-                android:id="@+id/editLocalizacao"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_edittext"
-                android:padding="12dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="16dp"
-                android:textColor="@color/text_primary"
-                android:textColorHint="@color/text_secondary"
-                android:hint="Ex: Armário A"/>
+        <EditText
+            android:id="@+id/edtDataAquisicao"
+            android:hint="Data de Aquisição"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary"
+            android:background="@drawable/bg_edittext"
+            android:padding="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"/>
 
-            <TextView
-                android:text="Fornecedor"
-                android:textColor="@color/text_primary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <EditText
-                android:id="@+id/editFornecedor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_edittext"
-                android:padding="12dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="16dp"
-                android:textColor="@color/text_primary"
-                android:textColorHint="@color/text_secondary"
-                android:hint="Ex: LabShop"/>
+        <EditText
+            android:id="@+id/edtFornecedor"
+            android:hint="Fornecedor"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary"
+            android:background="@drawable/bg_edittext"
+            android:padding="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"/>
 
-            <TextView
-                android:text="Descrição"
-                android:textColor="@color/text_primary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <EditText
-                android:id="@+id/editDescricao"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_edittext"
-                android:padding="12dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="16dp"
-                android:textColor="@color/text_primary"
-                android:textColorHint="@color/text_secondary"
-                android:hint="Detalhes opcionais..."/>
+        <EditText
+            android:id="@+id/edtDescricao"
+            android:hint="Descrição/Detalhes"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary"
+            android:background="@drawable/bg_edittext"
+            android:padding="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"/>
 
-        </LinearLayout>
-    </ScrollView>
+        <Button
+            android:id="@+id/btnSalvar"
+            android:text="Salvar Material"
+            android:backgroundTint="@color/green_primary"
+            android:textColor="@color/app_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"/>
 
-    <Button
-        android:id="@+id/btnSalvar"
-        android:text="Salvar Material"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/green_primary"
-        android:textColor="@color/app_bg"
-        android:layout_marginTop="16dp"/>
-
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

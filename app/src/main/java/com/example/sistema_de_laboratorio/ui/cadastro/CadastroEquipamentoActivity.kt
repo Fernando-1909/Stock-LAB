@@ -66,7 +66,7 @@ class CadastroEquipamentoActivity : AppCompatActivity() {
             val fornecedor = edtFornecedor.text.toString()
             val manual = edtManual.text.toString()
 
-            if (nome.isNotBlank() && qtdStr.isNotBlank()) {
+            if (nome.isNotBlank() && qtdStr.isNotBlank() && localizacao.isNotBlank()) {
                 try {
                     lifecycleScope.launch {
                         val equipExistente = if (equipId != -1) {
@@ -99,7 +99,7 @@ class CadastroEquipamentoActivity : AppCompatActivity() {
                     Toast.makeText(this, "Quantidade inválida", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                Toast.makeText(this, "Nome e Quantidade são obrigatórios", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Nome, Quantidade e Localização são obrigatórios", Toast.LENGTH_SHORT).show()
             }
         }
     }

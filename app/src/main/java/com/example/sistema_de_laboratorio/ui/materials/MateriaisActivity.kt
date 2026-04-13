@@ -3,6 +3,7 @@ package com.example.sistema_de_laboratorio.ui.materiais
 import android.content.Intent
 import android.os.Bundle
 import android.widget.EditText
+import android.widget.ImageButton
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
@@ -21,6 +22,7 @@ class MateriaisActivity : AppCompatActivity() {
     private lateinit var adapter: MaterialAdapter
     private lateinit var busca: EditText
     private lateinit var service: LaboratorioService
+    private var filtroLocalizacao: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +33,7 @@ class MateriaisActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.rvMateriais)
         busca = findViewById<EditText>(R.id.editSearch)
         val fabAdd = findViewById<FloatingActionButton>(R.id.fabAddMaterial)
+        val btnFilter = findViewById<ImageButton>(R.id.btnFilter)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         
@@ -64,8 +67,28 @@ class MateriaisActivity : AppCompatActivity() {
             atualizarLista()
         }
 
+        btnFilter.setOnClickListener {
+            showFilterDialog()
+        }
+
         fabAdd.setOnClickListener {
             startActivity(Intent(this, CadastroMaterialActivity::class.java))
+        }
+    }
+
+    private fun showFilterDialog() {
+        lifecycleScope.launch {
+            val localizacoes = service.buscarTodasLocalizacoesMateriais()
+            val opcoes = mutableListOf("Todas as Localizações")
+            opcoes.addAll(localizacoes)
+
+            AlertDialog.Builder(this@MateriaisActivity)
+                .setTitle("Filtrar por Localização")
+                .setItems(opcoes.toTypedArray()) { _, which ->
+                    filtroLocalizacao = if (which == 0) null else opcoes[which]
+                    atualizarLista()
+                }
+                .show()
         }
     }
 
@@ -99,7 +122,7 @@ class MateriaisActivity : AppCompatActivity() {
     private fun atualizarLista() {
         val textoBusca = busca.text.toString()
         lifecycleScope.launch {
-            val resultado = service.buscarMateriais(textoBusca)
+            val resultado = service.buscarMateriais(textoBusca, filtroLocalizacao)
             adapter.atualizarLista(resultado)
         }
     }

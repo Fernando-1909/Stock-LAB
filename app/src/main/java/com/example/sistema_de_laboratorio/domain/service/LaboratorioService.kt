@@ -57,13 +57,26 @@ class LaboratorioService(context: Context) {
         materialDao.delete(material)
     }
 
-    suspend fun buscarMateriais(nome: String? = null): List<Material> {
-        val all = materialDao.getAll()
-        return if (nome.isNullOrBlank()) {
-            all
-        } else {
-            all.filter { it.nome.contains(nome, true) }
+    suspend fun buscarMateriais(nome: String? = null, localizacao: String? = null): List<Material> {
+        var result = materialDao.getAll()
+        
+        if (!nome.isNullOrBlank()) {
+            result = result.filter { it.nome.contains(nome, true) }
         }
+        
+        if (!localizacao.isNullOrBlank()) {
+            result = result.filter { it.localizacao.equals(localizacao, true) }
+        }
+        
+        return result
+    }
+
+    suspend fun buscarTodasLocalizacoesMateriais(): List<String> {
+        return materialDao.getAll()
+            .map { it.localizacao.trim() }
+            .filter { it.isNotBlank() }
+            .distinctBy { it.lowercase() }
+            .sortedBy { it.lowercase() }
     }
 
     // =========================
@@ -120,13 +133,26 @@ class LaboratorioService(context: Context) {
         equipamentoDao.delete(equipamento)
     }
 
-    suspend fun buscarEquipamentos(nome: String? = null): List<Equipamento> {
-        val all = equipamentoDao.getAll()
-        return if (nome.isNullOrBlank()) {
-            all
-        } else {
-            all.filter { it.nome.contains(nome, true) }
+    suspend fun buscarEquipamentos(nome: String? = null, localizacao: String? = null): List<Equipamento> {
+        var result = equipamentoDao.getAll()
+        
+        if (!nome.isNullOrBlank()) {
+            result = result.filter { it.nome.contains(nome, true) }
         }
+        
+        if (!localizacao.isNullOrBlank()) {
+            result = result.filter { it.localizacao.equals(localizacao, true) }
+        }
+        
+        return result
+    }
+
+    suspend fun buscarTodasLocalizacoesEquipamentos(): List<String> {
+        return equipamentoDao.getAll()
+            .map { it.localizacao.trim() }
+            .filter { it.isNotBlank() }
+            .distinctBy { it.lowercase() }
+            .sortedBy { it.lowercase() }
     }
 
     // =========================

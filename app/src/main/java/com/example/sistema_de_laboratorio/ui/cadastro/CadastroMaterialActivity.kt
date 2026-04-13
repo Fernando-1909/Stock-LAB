@@ -52,39 +52,52 @@ class CadastroMaterialActivity : AppCompatActivity() {
         }
 
         btnSalvar.setOnClickListener {
-            val nome = edtNome.text.toString()
-            val qtdStr = edtQuantidade.text.toString()
-            val descricao = edtDescricao.text.toString()
-            val localizacao = edtLocalizacao.text.toString()
-            val dataAquisicao = edtDataAquisicao.text.toString()
-            val fornecedor = edtFornecedor.text.toString()
+            val nome = edtNome.text.toString().trim()
+            val qtdStr = edtQuantidade.text.toString().trim()
+            val descricao = edtDescricao.text.toString().trim()
+            val localizacao = edtLocalizacao.text.toString().trim()
+            val dataAquisicao = edtDataAquisicao.text.toString().trim()
+            val fornecedor = edtFornecedor.text.toString().trim()
 
-            if (nome.isNotBlank() && qtdStr.isNotBlank()) {
-                try {
-                    val material = Material(
-                        id = if (materialId != -1) materialId else 0,
-                        nome = nome,
-                        quantidade = qtdStr.toInt(),
-                        descricao = descricao,
-                        localizacao = localizacao,
-                        dataAquisicao = dataAquisicao,
-                        fornecedor = fornecedor
-                    )
-                    
-                    lifecycleScope.launch {
-                        if (materialId != -1) {
-                            service.editarMaterial(material)
-                        } else {
-                            service.cadastrarMaterial(material)
-                        }
-                        Toast.makeText(this@CadastroMaterialActivity, "Sucesso!", Toast.LENGTH_SHORT).show()
-                        finish()
+            if (nome.isEmpty()) {
+                edtNome.error = "Nome é obrigatório"
+                edtNome.requestFocus()
+                return@setOnClickListener
+            }
+            if (qtdStr.isEmpty()) {
+                edtQuantidade.error = "Quantidade é obrigatória"
+                edtQuantidade.requestFocus()
+                return@setOnClickListener
+            }
+            if (localizacao.isEmpty()) {
+                edtLocalizacao.error = "Localização é obrigatória"
+                edtLocalizacao.requestFocus()
+                return@setOnClickListener
+            }
+
+            try {
+                val material = Material(
+                    id = if (materialId != -1) materialId else 0,
+                    nome = nome,
+                    quantidade = qtdStr.toInt(),
+                    descricao = descricao,
+                    localizacao = localizacao,
+                    dataAquisicao = dataAquisicao,
+                    fornecedor = fornecedor
+                )
+                
+                lifecycleScope.launch {
+                    if (materialId != -1) {
+                        service.editarMaterial(material)
+                    } else {
+                        service.cadastrarMaterial(material)
                     }
-                } catch (e: NumberFormatException) {
-                    Toast.makeText(this, "Quantidade inválida", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@CadastroMaterialActivity, "Salvo com sucesso!", Toast.LENGTH_SHORT).show()
+                    finish()
                 }
-            } else {
-                Toast.makeText(this, "Nome e Quantidade são obrigatórios", Toast.LENGTH_SHORT).show()
+            } catch (e: NumberFormatException) {
+                edtQuantidade.error = "Quantidade inválida"
+                edtQuantidade.requestFocus()
             }
         }
     }

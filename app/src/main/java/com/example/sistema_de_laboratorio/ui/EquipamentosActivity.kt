@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +25,7 @@ class EquipamentosActivity : AppCompatActivity() {
     private lateinit var adapter: EquipamentoAdapter
     private lateinit var busca: EditText
     private lateinit var service: LaboratorioService
+    private var filtroLocalizacao: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +36,7 @@ class EquipamentosActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerEquip)
         busca = findViewById<EditText>(R.id.edtBusca)
         val fabAdd = findViewById<FloatingActionButton>(R.id.fabAddEquip)
+        val btnFilter = findViewById<ImageButton>(R.id.btnFilter)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         
@@ -70,8 +73,28 @@ class EquipamentosActivity : AppCompatActivity() {
             atualizarLista()
         }
 
+        btnFilter.setOnClickListener {
+            showFilterDialog()
+        }
+
         fabAdd.setOnClickListener {
             startActivity(Intent(this, CadastroEquipamentoActivity::class.java))
+        }
+    }
+
+    private fun showFilterDialog() {
+        lifecycleScope.launch {
+            val localizacoes = service.buscarTodasLocalizacoesEquipamentos()
+            val opcoes = mutableListOf("Todas as Localizações")
+            opcoes.addAll(localizacoes)
+
+            AlertDialog.Builder(this@EquipamentosActivity)
+                .setTitle("Filtrar por Localização")
+                .setItems(opcoes.toTypedArray()) { _, which ->
+                    filtroLocalizacao = if (which == 0) null else opcoes[which]
+                    atualizarLista()
+                }
+                .show()
         }
     }
 
@@ -125,7 +148,7 @@ class EquipamentosActivity : AppCompatActivity() {
     private fun atualizarLista() {
         val textoBusca = busca.text.toString()
         lifecycleScope.launch {
-            val resultado = service.buscarEquipamentos(textoBusca)
+            val resultado = service.buscarEquipamentos(textoBusca, filtroLocalizacao)
             adapter.atualizarLista(resultado)
         }
     }

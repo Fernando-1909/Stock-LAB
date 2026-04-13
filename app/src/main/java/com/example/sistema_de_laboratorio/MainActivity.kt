@@ -20,23 +20,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
-        // Carregar preferência de tema antes do setContentView
-        val sharedPref = getSharedPreferences("settings", Context.MODE_PRIVATE)
-        val isDarkMode = sharedPref.getBoolean("dark_mode", true)
-        
-        if (isDarkMode) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
-
         setContentView(R.layout.activity_main)
 
+        val sharedPref = getSharedPreferences("settings", Context.MODE_PRIVATE)
         val service = LaboratorioService(this)
         val btnThemeToggle = findViewById<ImageButton>(R.id.btnThemeToggle)
 
-        // Atualizar ícone inicial
+        // Sincronizar ícone do tema (o modo em si já é definido no LaboratorioApp)
+        val isDarkMode = sharedPref.getBoolean("dark_mode", true)
         updateThemeIcon(btnThemeToggle, isDarkMode)
 
         // Botão de alternar tema
@@ -56,19 +47,23 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Dados de teste (opcional)
+        // Carregar dados iniciais se estiver vazio
         lifecycleScope.launch {
-            if (service.relatorioEstoque().isEmpty()) {
-                service.cadastrarMaterial(
-                    Material(
-                        nome = "Álcool 70%",
-                        quantidade = 15,
-                        descricao = "Uso geral",
-                        localizacao = "Armário A",
-                        dataAquisicao = "2024",
-                        fornecedor = "Fornecedor X"
+            try {
+                if (service.relatorioEstoque().isEmpty()) {
+                    service.cadastrarMaterial(
+                        Material(
+                            nome = "Álcool 70%",
+                            quantidade = 15,
+                            descricao = "Uso geral",
+                            localizacao = "Armário A",
+                            dataAquisicao = "2024",
+                            fornecedor = "Fornecedor X"
+                        )
                     )
-                )
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
 
@@ -91,9 +86,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateThemeIcon(button: ImageButton, isDarkMode: Boolean) {
         if (isDarkMode) {
-            button.setImageResource(R.drawable.ic_sun) // Mostrar Sol no tema escuro (para mudar para claro)
+            button.setImageResource(R.drawable.ic_sun)
         } else {
-            button.setImageResource(R.drawable.ic_moon) // Mostrar Lua no tema claro (para mudar para escuro)
+            button.setImageResource(R.drawable.ic_moon)
         }
     }
 }
