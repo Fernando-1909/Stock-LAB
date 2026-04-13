@@ -8,7 +8,6 @@ import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
-import com.example.sistema_de_laboratorio.data.model.Material
 import com.example.sistema_de_laboratorio.domain.service.LaboratorioService
 import com.example.sistema_de_laboratorio.ui.EquipamentosActivity
 import com.example.sistema_de_laboratorio.ui.OcorrenciasActivity
@@ -47,20 +46,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Carregar dados iniciais se estiver vazio
+        // Carregar dados iniciais se a base de dados estiver vazia
         lifecycleScope.launch {
             try {
-                if (service.relatorioEstoque().isEmpty()) {
-                    service.cadastrarMaterial(
-                        Material(
-                            nome = "Álcool 70%",
-                            quantidade = 15,
-                            descricao = "Uso geral",
-                            localizacao = "Armário A",
-                            dataAquisicao = "2024",
-                            fornecedor = "Fornecedor X"
-                        )
-                    )
+                val materiais = service.relatorioEstoque()
+                val equipamentos = service.relatorioEquipamentos()
+                
+                if (materiais.isEmpty() && equipamentos.isEmpty()) {
+                    service.seedInitialData()
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
